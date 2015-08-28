@@ -1,4 +1,5 @@
 import pygame, sys
+import time
 from pygame.locals import *
 
 pygame.init()
@@ -86,3 +87,4 @@ if (__name__ == '__main__'):
                      erase(mousex, mousey)
         update_board()
         pygame.display.update()
+        time.sleep(0.1)
