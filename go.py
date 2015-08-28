@@ -9,6 +9,7 @@ pygame.display.set_caption('go!')
 #set up the colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+BROWN = (255, 222, 173)
 
 BLOCK_SIZE = 37
 BOARD_INIT = 10
@@ -25,7 +26,7 @@ def init_board():
     return 0
 
 def update_board():
-    DISPLAYSURF.fill(WHITE)
+    DISPLAYSURF.fill(BROWN)
     init_board()
     for i in range(19):
         for j in range(19):
