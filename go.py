@@ -3,7 +3,7 @@ import time
 from pygame.locals import *
 
 pygame.init()
-DISPLAYSURF = pygame.display.set_mode((800, 700))
+DISPLAYSURF = pygame.display.set_mode((900, 768))
 DISPLAYSURF.fill((255, 255, 255))
 pygame.display.set_caption('go!')
 
@@ -13,7 +13,7 @@ WHITE = (255, 255, 255)
 BROWN = (255, 222, 173)
 
 BLOCK_SIZE = 37
-BOARD_INIT = 10
+BOARD_INIT = 22
 EPS = 7
 CHESS = [[0 for x in range(19)] for x in range(19)]
 
@@ -24,6 +24,8 @@ def init_board():
             pygame.draw.rect(DISPLAYSURF, BLACK, (BOARD_INIT + i * BLOCK_SIZE, BOARD_INIT + j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
             if (i in dot_loc and j in dot_loc):
                 pygame.draw.circle(DISPLAYSURF, BLACK, (BOARD_INIT + i * BLOCK_SIZE, BOARD_INIT + j * BLOCK_SIZE), 4, 0)
+    pygame.draw.rect(DISPLAYSURF, (0, 100, 0), (750, 350, 80, 80), 0)
+    pygame.draw.rect(DISPLAYSURF, (100, 0, 0), (750, 500, 80, 80), 0)
     return 0
 
 def update_board():
@@ -69,9 +71,27 @@ def erase(mx, my):
     CHESS[x][y] = 0
     return 0
 
+def clear():
+    for i in range(19):
+        for j in range(19):
+            CHESS[i][j] = 0
+    return 0
+
+def is_clear(x, y):
+    #TODO
+    if (x > 750 and x < 750 + 80 and y > 350 and y < 350 + 80):
+        return True
+    return False
+
+def is_end(x, y):
+    if (x > 750 and x < 750 + 80 and y > 500 and y < 500 + 80):
+        return True
+    return False
+
 if (__name__ == '__main__'):
     init_board()
-    while (True):
+    f_end = False
+    while (f_end == False):
         mouseClicked = False
         for event in pygame.event.get():
             if (event.type == QUIT):
@@ -80,6 +100,12 @@ if (__name__ == '__main__'):
             elif (event.type == MOUSEBUTTONUP):
                  (mousex, mousey) = event.pos
                  if (event.button == 1):
+                     if (is_clear(mousex, mousey) == True):
+                         clear()
+                         continue
+                     if (is_end(mousex, mousey) == True):
+                         f_end = True
+                         break
                      go(mousex, mousey, 1)
                  elif (event.button == 3):
                      go(mousex, mousey, 3)
