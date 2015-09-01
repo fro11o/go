@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, os
 import time
 from pygame.locals import *
 
@@ -17,6 +17,17 @@ BOARD_INIT = 22
 EPS = 7
 CHESS = [[0 for x in range(19)] for x in range(19)]
 
+_image_library = {}
+def get_image(path):
+    global _image_library
+    image = _image_library.get(path)
+
+    if (image == None):
+        canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
+        image = pygame.image.load(canonicalized_path)
+        _image_library[path] = image
+    return pygame.transform.scale(image, (704, 704))
+
 def init_board():
     dot_loc = [3, 9, 15]
     for i in range(18):
@@ -29,7 +40,8 @@ def init_board():
     return 0
 
 def update_board():
-    DISPLAYSURF.fill(BROWN)
+    DISPLAYSURF.fill((230, 230, 255))
+    DISPLAYSURF.blit(get_image('board2.jpg'), (3, 3))
     init_board()
     for i in range(19):
         for j in range(19):
